@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mirror Wars - Social Deception Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div id="splash-screen" class="screen active">
+        <div class="container">
+            <div class="splash-content">
+                <h1 class="game-title">🪞 Mirror Wars</h1>
+                <p class="game-subtitle">A Social Deception Party Game</p>
+                <p class="game-description">Can you spot who's copying who?</p>
+                <div class="splash-buttons">
+                    <button class="btn btn--primary btn--lg" id="create-room-btn">Create Room</button>
+                    <button class="btn btn--secondary btn--lg" id="join-room-btn">Join Room</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Room Modal -->
+    <div id="create-room-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Create New Room</h3>
+            <div class="form-group">
+                <label class="form-label" for="create-player-name-input">Your Name</label>
+                <input type="text" class="form-control" id="create-player-name-input" placeholder="Enter your name">
+            </div>
+            <div class="modal-buttons">
+                <button class="btn btn--secondary" id="cancel-create-btn">Cancel</button>
+                <button class="btn btn--primary" id="confirm-create-btn">Create Room</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Join Room Modal -->
+    <div id="join-room-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Join Room</h3>
+            <div class="form-group">
+                <label class="form-label" for="room-code-input">Room Code</label>
+                <input type="text" class="form-control" id="room-code-input" placeholder="Enter 4-digit code">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="player-name-input">Your Name</label>
+                <input type="text" class="form-control" id="player-name-input" placeholder="Enter your name">
+            </div>
+            <div class="modal-buttons">
+                <button class="btn btn--secondary" id="cancel-join-btn">Cancel</button>
+                <button class="btn btn--primary" id="confirm-join-btn">Join Game</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lobby Screen -->
+    <div id="lobby-screen" class="screen hidden">
+        <div class="container">
+            <div class="lobby-content">
+                <h2>Room: <span id="room-code-display">1234</span></h2>
+                <p class="room-status">Waiting for players (3-8 needed)</p>
+                
+                <div class="players-list">
+                    <h3>Players:</h3>
+                    <div id="players-container"></div>
+                </div>
+
+                <div class="lobby-actions">
+                    <button class="btn btn--primary btn--lg hidden" id="start-game-btn">Start Game</button>
+                    <p class="waiting-text">Share the room code with your friends!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Role Reveal Screen -->
+    <div id="role-reveal-screen" class="screen hidden">
+        <div class="container">
+            <div class="role-reveal-content">
+                <h2>Your Secret Role</h2>
+                <div class="role-card">
+                    <div class="role-icon" id="role-icon">🎭</div>
+                    <h3 class="role-name" id="role-name">Original</h3>
+                    <p class="role-description" id="role-description">
+                        Create unique patterns. Watch out for players copying you!
+                    </p>
+                </div>
+                <button class="btn btn--primary btn--lg" id="ready-btn">I'm Ready!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pattern Phase Screen -->
+    <div id="pattern-phase-screen" class="screen hidden">
+        <div class="container">
+            <div class="pattern-phase-content">
+                <div class="phase-header">
+                    <h2>Create Your Pattern</h2>
+                    <div class="timer" id="pattern-timer">60</div>
+                </div>
+                
+                <div class="pattern-grid" id="pattern-grid"></div>
+                
+                <div class="pattern-instructions">
+                    <p id="pattern-hint">Tap buttons to create your unique sequence!</p>
+                </div>
+
+                <div class="other-players-patterns">
+                    <h3>Other Players' Patterns:</h3>
+                    <div id="other-patterns-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Voting Phase Screen -->
+    <div id="voting-phase-screen" class="screen hidden">
+        <div class="container">
+            <div class="voting-content">
+                <div class="phase-header">
+                    <h2>Vote Out a Mirror</h2>
+                    <div class="timer" id="voting-timer">45</div>
+                </div>
+                
+                <p class="voting-instructions">Who do you think was copying others?</p>
+                
+                <div class="voting-players" id="voting-players-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Screen -->
+    <div id="results-screen" class="screen hidden">
+        <div class="container">
+            <div class="results-content">
+                <h2>Round Results</h2>
+                <div class="elimination-result">
+                    <div class="eliminated-player" id="eliminated-player">
+                        <span class="player-name">Player X</span> was eliminated!
+                        <div class="revealed-role">They were a <span id="revealed-role">Mirror</span></div>
+                    </div>
+                </div>
+                <div class="game-status" id="game-status">
+                    <p>Game continues... Who's left?</p>
+                </div>
+                <button class="btn btn--primary btn--lg" id="next-round-btn">Next Round</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game End Screen -->
+    <div id="game-end-screen" class="screen hidden">
+        <div class="container">
+            <div class="game-end-content">
+                <h2 class="victory-title" id="victory-title">🎉 Originals Win!</h2>
+                <div class="victory-message" id="victory-message">
+                    All the Mirrors have been found!
+                </div>
+                
+                <div class="final-roles">
+                    <h3>Final Roles:</h3>
+                    <div id="final-roles-container"></div>
+                </div>
+
+                <div class="game-end-actions">
+                    <button class="btn btn--primary btn--lg" id="play-again-btn">Play Again</button>
+                    <button class="btn btn--secondary" id="new-game-btn">New Game</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
