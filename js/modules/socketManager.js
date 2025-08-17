@@ -16,7 +16,15 @@ class SocketManager {
             ? 'http://localhost:3000' 
             : 'https://mirror-wars.onrender.com';
             
-        this.socket = io(serverUrl);
+        console.log('Connecting to server:', serverUrl);
+        
+        try {
+            this.socket = io(serverUrl);
+        } catch (error) {
+            console.error('Failed to initialize Socket.IO:', error);
+            alert('Failed to connect to server. Socket.IO may not be loaded.');
+            return;
+        }
         
         this.socket.on('connect', () => {
             console.log('Connected to server');
