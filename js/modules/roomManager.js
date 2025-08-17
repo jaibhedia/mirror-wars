@@ -6,7 +6,7 @@ import { CONFIG, PHASES } from './config.js';
 import { gameState } from './gameState.js';
 import { showScreen, hideModal, getElement } from '../utils/dom.js';
 import socketManager from './socketManager.js';
-import { updateLobbyDisplay, updateGameDisplay } from './uiUpdater.js';
+import { updateLobbyDisplay, updatePatternPhaseDisplay, updateVotingDisplay } from './uiUpdater.js';
 
 let socketListenersSetup = false;
 
@@ -231,7 +231,7 @@ function showRoleReveal(role) {
 function showPatternPhase() {
     gameState.update({ phase: PHASES.PATTERN });
     showScreen('pattern-phase');
-    updateGameDisplay();
+    updatePatternPhaseDisplay();
 }
 
 /**
@@ -240,7 +240,7 @@ function showPatternPhase() {
 function showVotingPhase() {
     gameState.update({ phase: PHASES.VOTING });
     showScreen('voting-phase');
-    updateGameDisplay();
+    updateVotingDisplay();
 }
 
 /**
