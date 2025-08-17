@@ -193,7 +193,7 @@ export function startGame() {
  * Enter lobby screen
  */
 function enterLobby() {
-    showScreen('lobby');
+    showScreen('lobby-screen');
     updateLobbyDisplay();
 }
 
@@ -217,7 +217,7 @@ function showRoleReveal(role) {
         }
     }
     
-    showScreen('role-reveal');
+    showScreen('role-reveal-screen');
     
     // Auto-advance to pattern phase after 5 seconds
     setTimeout(() => {
@@ -230,7 +230,7 @@ function showRoleReveal(role) {
  */
 function showPatternPhase() {
     gameState.update({ phase: PHASES.PATTERN });
-    showScreen('pattern-phase');
+    showScreen('pattern-phase-screen');
     updatePatternPhaseDisplay();
 }
 
@@ -239,7 +239,7 @@ function showPatternPhase() {
  */
 function showVotingPhase() {
     gameState.update({ phase: PHASES.VOTING });
-    showScreen('voting-phase');
+    showScreen('voting-phase-screen');
     updateVotingDisplay();
 }
 
@@ -259,7 +259,7 @@ function showVotingResults(eliminatedPlayer, votes, winResult) {
     if (winResult) {
         showGameEnd(winResult);
     } else {
-        showScreen('results');
+        showScreen('results-screen');
         // Auto-advance to next round after 5 seconds
         setTimeout(() => {
             showPatternPhase();
@@ -282,7 +282,7 @@ function showGameEnd(winResult) {
         messageElement.textContent = winResult.message;
     }
     
-    showScreen('game-end');
+    showScreen('game-end-screen');
 }
 
 /**
@@ -326,7 +326,7 @@ export function submitVote(playerId) {
  */
 export function leaveRoom() {
     gameState.reset();
-    showScreen('splash');
+    showScreen('splash-screen');
 }
 
 /**
