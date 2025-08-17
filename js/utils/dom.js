@@ -85,12 +85,29 @@ export function getElements(category) {
  * Show screen by name
  */
 export function showScreen(screenName) {
+    // Hide all screens
     Object.values(elements.screens).forEach(screen => {
         if (screen) screen.classList.remove('active');
     });
     
-    if (elements.screens[screenName]) {
-        elements.screens[screenName].classList.add('active');
+    // Map screen names to element keys
+    const screenMap = {
+        'splash-screen': 'splash',
+        'lobby-screen': 'lobby', 
+        'role-reveal-screen': 'roleReveal',
+        'pattern-phase-screen': 'patternPhase',
+        'voting-phase-screen': 'voting',
+        'results-screen': 'results',
+        'game-end-screen': 'gameEnd'
+    };
+    
+    const elementKey = screenMap[screenName] || screenName;
+    
+    if (elements.screens[elementKey]) {
+        elements.screens[elementKey].classList.add('active');
+        console.log(`Switched to screen: ${screenName} (${elementKey})`);
+    } else {
+        console.error(`Screen not found: ${screenName}`);
     }
 }
 

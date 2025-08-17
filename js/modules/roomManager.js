@@ -26,7 +26,7 @@ function setupSocketListeners() {
             players: data.players || [],
             phase: PHASES.LOBBY
         });
-        hideModal('create-room-modal');
+        hideModal('createRoom');
         enterLobby();
     });
 
@@ -39,7 +39,7 @@ function setupSocketListeners() {
             players: data.players || [],
             phase: PHASES.LOBBY
         });
-        hideModal('join-room-modal');
+        hideModal('joinRoom');
         enterLobby();
     });
 
@@ -55,7 +55,7 @@ function setupSocketListeners() {
         gameState.update({
             players: data.players
         });
-        updateLobbyDisplay();
+        updateLobbyUI();
     });
 
     // Player left
@@ -64,7 +64,7 @@ function setupSocketListeners() {
         gameState.update({
             players: data.players
         });
-        updateLobbyDisplay();
+        updateLobbyUI();
     });
 
     // Role assigned
@@ -194,7 +194,56 @@ export function startGame() {
  */
 function enterLobby() {
     showScreen('lobby-screen');
-    updateLobbyDisplay();
+    updateLobbyUI();
+}
+
+/**
+ * Simple lobby UI update for Socket.IO structure
+ */
+function updateLobbyUI() {
+    const state = gameState.get();
+    
+    // Update room code display
+    const roomCodeDisplay = document.getElementById('room-code-display');
+    if (roomCodeDisplay && state.roomCode) {
+        roomCodeDisplay.textContent = state.roomCode;
+    }
+    
+    // Update players list
+    const playersContainer = document.getElementById('players-container');
+    if (playersContainer && state.players) {
+        playersContainer.innerHTML = '';
+        state.players.forEach(player => {
+            const playerDiv = document.createElement('div');
+            playerDiv.className = 'player-item';
+            playerDiv.innerHTML = `
+                <div class="player-avatar">${player.name.charAt(0).toUpperCase()}</div>
+                <div class="player-name">${player.name}${player.isHost ? ' (Host)' : ''}</div>
+            `;
+            playersContainer.appendChild(playerDiv);
+        });
+    }
+    
+    // Update start button and waiting text
+    const startBtn = document.getElementById('start-game-btn');
+    const waitingText = document.querySelector('.waiting-text');
+    const roomStatus = document.querySelector('.room-status');
+    
+    const playerCount = state.players ? state.players.length : 0;
+    
+    if (startBtn && waitingText) {
+        if (state.isHost && playerCount >= 3) {
+            startBtn.classList.remove('hidden');
+            waitingText.classList.add('hidden');
+        } else {
+            startBtn.classList.add('hidden');
+            waitingText.classList.remove('hidden');
+        }
+    }
+    
+    if (roomStatus) {
+        roomStatus.textContent = `Players: ${playerCount}/8 (3 minimum needed)`;
+    }
 }
 
 /**
