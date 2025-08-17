@@ -11,10 +11,10 @@ class SocketManager {
     }
 
     initialize() {
-        // Use current domain in production, localhost in development
+        // Use your Render deployment URL as backend server
         const serverUrl = window.location.hostname === 'localhost' 
             ? 'http://localhost:3000' 
-            : window.location.origin;
+            : 'https://mirror-wars.onrender.com';
             
         this.socket = io(serverUrl);
         
