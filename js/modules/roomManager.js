@@ -342,3 +342,37 @@ export function getCurrentRoomCode() {
 export function isHost() {
     return gameState.get().isHost;
 }
+
+/**
+ * Mark player as ready (placeholder for now)
+ */
+export function markPlayerReady() {
+    console.log('Player marked as ready');
+    // This functionality may not be needed with real-time socket updates
+}
+
+/**
+ * Start next round (placeholder for now)
+ */
+export function nextRound() {
+    console.log('Next round requested');
+    // This is handled automatically by the server
+}
+
+/**
+ * Play again - restart the game
+ */
+export function playAgain() {
+    console.log('Play again requested');
+    if (isHost()) {
+        socketManager.startGame();
+    }
+}
+
+/**
+ * Start a new game - return to lobby
+ */
+export function newGame() {
+    console.log('New game requested');
+    leaveRoom();
+}
