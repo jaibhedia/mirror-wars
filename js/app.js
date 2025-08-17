@@ -5,6 +5,7 @@
 import { initializeDOMElements, showScreen } from './utils/dom.js';
 import { initializeEventHandlers } from './modules/eventHandlers.js';
 import { gameState } from './modules/gameState.js';
+import socketManager from './modules/socketManager.js';
 
 /**
  * Application class to manage the entire game
@@ -26,6 +27,10 @@ class MirrorWarsApp {
             // Initialize DOM elements cache
             initializeDOMElements();
             console.log('✅ DOM elements cached');
+            
+            // Initialize socket connection
+            socketManager.initialize();
+            console.log('✅ Socket connection initialized');
             
             // Set up event handlers
             initializeEventHandlers();
